@@ -112,7 +112,6 @@
   body.readonly input[type=text], body.readonly textarea, body.readonly .btn-primary, body.readonly .btn-green { pointer-events: none; opacity: 0.55; }
   .setup-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 12px; }
   .member-setup-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-  /* HISTORY */
   .history-quarter { margin-bottom: 2.5rem; }
   .history-q-title { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 1rem; padding-bottom: 10px; border-bottom: 1.5px solid var(--border-strong); display: flex; align-items: center; justify-content: space-between; }
   .history-q-count { font-size: 13px; font-weight: 400; color: var(--text-3); }
@@ -134,7 +133,8 @@
     <div class="logo">Bond <span>&</span> Coyne</div>
     <div class="q-selector">
       <select id="quarter-select" onchange="onQuarterChange()">
-        <option value="Q3 2026" selected>Q3 2026 — current</option>
+        <option value="Q2 2026" selected>Q2 2026 — current</option>
+        <option value="Q3 2026">Q3 2026</option>
         <option value="Q4 2026">Q4 2026</option>
         <option value="Q1 2027">Q1 2027</option>
         <option value="Q2 2027">Q2 2027</option>
@@ -164,7 +164,7 @@
 
   <div class="readonly-banner" id="readonly-banner">
     You are viewing <strong id="readonly-qname"></strong> — this is a past quarter. Everything here is read-only.
-    <a href="#" onclick="resetToLive();return false;" style="margin-left:12px;color:var(--amber-dark);font-weight:600;text-decoration:none">Back to Q3 2026 →</a>
+    <a href="#" onclick="resetToLive();return false;" style="margin-left:12px;color:var(--amber-dark);font-weight:600;text-decoration:none">Back to Q2 2026 →</a>
   </div>
 
   <!-- WARM UP -->
@@ -249,13 +249,13 @@
       <div class="q-tag">Design ↔ Dev handoff</div>
       <div class="q-text">How well is the handoff between design and development working right now?</div>
       <div class="choices" id="ch-handoff">
-        <button class="choice" onclick="toggleChoice(this,'handoff','Works well overall')">Works well overall</button>
-        <button class="choice" onclick="toggleChoice(this,'handoff','Specs could be clearer')">Specs could be clearer</button>
-        <button class="choice" onclick="toggleChoice(this,'handoff','More overlap time needed')">More overlap time needed</button>
-        <button class="choice" onclick="toggleChoice(this,'handoff','Feedback loops are slow')">Feedback loops are slow</button>
-        <button class="choice" onclick="toggleChoice(this,'handoff','Tooling is the issue')">Tooling is the issue</button>
+        <button class="choice" data-key="handoff" data-val="Works well overall" onclick="toggleChoice(this)">Works well overall</button>
+        <button class="choice" data-key="handoff" data-val="Specs could be clearer" onclick="toggleChoice(this)">Specs could be clearer</button>
+        <button class="choice" data-key="handoff" data-val="More overlap time needed" onclick="toggleChoice(this)">More overlap time needed</button>
+        <button class="choice" data-key="handoff" data-val="Feedback loops are slow" onclick="toggleChoice(this)">Feedback loops are slow</button>
+        <button class="choice" data-key="handoff" data-val="Tooling is the issue" onclick="toggleChoice(this)">Tooling is the issue</button>
       </div>
-      <textarea id="ta-handoff" placeholder="Notes from group discussion..." style="margin-top:10px" onchange="saveTextarea('handoff-notes',this.value)"></textarea>
+      <textarea id="ta-handoff" data-key="handoff-notes" placeholder="Notes from group discussion..." style="margin-top:10px" onchange="saveTextarea('handoff-notes',this.value)"></textarea>
     </div>
     <div class="card">
       <div class="q-tag">Tools & process</div>
@@ -267,12 +267,12 @@
       <div class="q-tag">Communication & visibility</div>
       <div class="q-text">Do we have enough visibility into what each other is working on?</div>
       <div class="choices" id="ch-comms">
-        <button class="choice" onclick="toggleChoice(this,'comms','Good visibility within the team')">Good visibility within team</button>
-        <button class="choice" onclick="toggleChoice(this,'comms','Hard to know what others are on')">Hard to know what others are on</button>
-        <button class="choice" onclick="toggleChoice(this,'comms','Brand team comms could improve')">Brand team comms could improve</button>
-        <button class="choice" onclick="toggleChoice(this,'comms','Client comms feel disconnected')">Client comms feel disconnected</button>
+        <button class="choice" data-key="comms" data-val="Good visibility within the team" onclick="toggleChoice(this)">Good visibility within team</button>
+        <button class="choice" data-key="comms" data-val="Hard to know what others are on" onclick="toggleChoice(this)">Hard to know what others are on</button>
+        <button class="choice" data-key="comms" data-val="Brand team comms could improve" onclick="toggleChoice(this)">Brand team comms could improve</button>
+        <button class="choice" data-key="comms" data-val="Client comms feel disconnected" onclick="toggleChoice(this)">Client comms feel disconnected</button>
       </div>
-      <textarea id="ta-comms" placeholder="Notes from group discussion..." style="margin-top:10px" onchange="saveTextarea('comms-notes',this.value)"></textarea>
+      <textarea id="ta-comms" data-key="comms-notes" placeholder="Notes from group discussion..." style="margin-top:10px" onchange="saveTextarea('comms-notes',this.value)"></textarea>
     </div>
     <div class="card">
       <div class="q-tag">Team health check</div>
@@ -328,7 +328,7 @@
 
   <!-- HISTORY -->
   <div class="section" id="sec-history">
-    <div class="sec-header"><div class="sec-title">Session history</div><div class="sec-sub">A full record of every quarterly session. All responses are stored here permanently — nothing gets lost between quarters.</div></div>
+    <div class="sec-header"><div class="sec-title">Session history</div><div class="sec-sub">A full record of every quarterly session. All responses are stored here permanently.</div></div>
     <div id="history-content"><div class="empty-state">Loading history...</div></div>
   </div>
 
@@ -340,11 +340,14 @@ const SUPABASE_URL = 'https://tiyxvlgkmvhwjacceomb.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpeXh2bGdrbXZod2phY2Nlb21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMTI2MzIsImV4cCI6MjA5MzY4ODYzMn0.eRi1VvBwXPny-pN1VazpJqI-ZmWpw5jwT22Fw-_hrK8';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const CURRENT_QUARTER = 'Q3 2026';
+const CURRENT_QUARTER = 'Q2 2026';
 const avCls = ['av-p','av-t','av-b','av-a','av-c'];
 let memberCount = 0, kudoCount = 0, tempRateVal = null;
 let activeQuarter = CURRENT_QUARTER;
 let isReadonly = false;
+
+// Track which member IDs have been built so we don't double-render
+const builtMembers = {};
 
 function show(id, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -392,7 +395,16 @@ function clearBoard() {
   });
   document.getElementById('kudos-list').innerHTML = '';
   document.getElementById('temp-responses').innerHTML = '';
+  document.getElementById('member-tabs').innerHTML = '';
+  document.getElementById('member-forms').innerHTML = '';
+  document.querySelectorAll('.choice.sel').forEach(b => b.classList.remove('sel'));
+  document.querySelectorAll('textarea[data-key]').forEach(t => t.value = '');
+  document.querySelectorAll('.r-btn').forEach(b => b.classList.remove('sel-low','sel-mid','sel-high'));
   kudoCount = 0;
+  memberCount = 0;
+  Object.keys(builtMembers).forEach(k => delete builtMembers[k]);
+  document.getElementById('prog-wrap').style.display = 'none';
+  document.getElementById('prog-label').textContent = '';
 }
 
 async function save(section, question, answer, name='', role='') {
@@ -402,11 +414,27 @@ async function save(section, question, answer, name='', role='') {
 
 async function loadForQuarter(quarter) {
   const { data } = await sb.from('responses').select('*').eq('quarter', quarter).order('created_at');
-  if (data) data.forEach(r => renderResponse(r));
+  if (!data) return;
+
+  // First pass: build all member forms from checkin data so forms exist before we populate them
+  const checkinRows = data.filter(r => r.section === 'checkin');
+  checkinRows.forEach(r => {
+    // question format is "mbr_TIMESTAMP-fieldname"
+    const match = r.question.match(/^(mbr_\d+)/);
+    if (match) {
+      const memberId = match[1];
+      if (!builtMembers[memberId] && r.name && r.role) {
+        buildMemberFromData(memberId, r.name, r.role);
+      }
+    }
+  });
+
+  // Second pass: render all responses
+  data.forEach(r => renderResponse(r));
 }
 
 function renderResponse(r) {
-  const { section, question, answer, name } = r;
+  const { section, question, answer, name, role } = r;
   if (section==='warmup' && question==='oneword') addStickyEl('sa-oneword', answer, 's-purple');
   if (section==='warmup' && question==='temperature') addTempEl(name, answer);
   if (section==='wins' && question==='projwins') addStickyEl('sa-projwins', answer, 's-green');
@@ -419,6 +447,107 @@ function renderResponse(r) {
   if (section==='next' && question==='keep') addStickyEl('sa-keep', answer, 's-purple');
   if (section==='next' && question==='learn') addStickyEl('sa-learn', answer, 's-blue');
   if (section==='next' && question==='onething') addStickyEl('sa-onething', answer, 's-coral');
+
+  // Restore choice button selections
+  if (section==='collab' && question==='handoff-choices') restoreChoices('ch-handoff', answer);
+  if (section==='collab' && question==='comms-choices') restoreChoices('ch-comms', answer);
+
+  // Restore textarea notes
+  if (section==='collab' && question==='handoff-notes') { const el = document.getElementById('ta-handoff'); if(el) el.value = answer; }
+  if (section==='collab' && question==='comms-notes') { const el = document.getElementById('ta-comms'); if(el) el.value = answer; }
+
+  // Restore health ratings
+  if (section==='collab' && question.startsWith('health-')) {
+    const item = question.replace('health-','');
+    restoreHealthRating(item, parseInt(answer));
+  }
+
+  // Restore individual check-in fields
+  if (section==='checkin') {
+    const match = question.match(/^(mbr_\d+)-(.+)$/);
+    if (match) {
+      const [, memberId, field] = match;
+      populateMemberField(memberId, field, answer);
+    }
+  }
+}
+
+function restoreChoices(containerId, savedVal) {
+  const container = document.getElementById(containerId);
+  if (!container || !savedVal) return;
+  const selected = savedVal.split(', ');
+  container.querySelectorAll('.choice').forEach(btn => {
+    if (selected.includes(btn.dataset.val) || selected.includes(btn.textContent.trim())) {
+      btn.classList.add('sel');
+    }
+  });
+}
+
+function restoreHealthRating(item, val) {
+  document.querySelectorAll('#health-group .rating-item').forEach(row => {
+    if (row.querySelector('.rating-label').textContent === item) {
+      row.querySelectorAll('.r-btn').forEach(btn => {
+        if (parseInt(btn.textContent) === val) {
+          btn.classList.add(val >= 4 ? 'sel-high' : val <= 2 ? 'sel-low' : 'sel-mid');
+        }
+      });
+    }
+  });
+}
+
+function buildMemberFromData(id, name, role) {
+  if (builtMembers[id]) return;
+  builtMembers[id] = { name, role };
+  const av = avCls[memberCount % avCls.length];
+  const init = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  memberCount++;
+
+  const tabs = document.getElementById('member-tabs');
+  const tab = document.createElement('button');
+  tab.className = 'm-tab';
+  tab.id = 'tab_'+id;
+  tab.innerHTML = `<span class="dot" id="dot_${id}"></span>${name} <span class="role-badge ${role==='ux'?'rb-ux':'rb-dev'}">${role==='ux'?'UX/UI':'Dev'}</span>`;
+  tab.onclick = () => switchMember(id, tab);
+  tabs.appendChild(tab);
+
+  document.getElementById('prog-wrap').style.display = 'block';
+  buildMemberForm(id, name, role, av, init);
+  updateProg();
+
+  // Auto-activate first tab
+  if (memberCount === 1) switchMember(id, tab);
+}
+
+function populateMemberField(memberId, field, value) {
+  const form = document.getElementById('form_'+memberId);
+  if (!form) return;
+
+  if (field === 'workload') {
+    form.querySelectorAll('.choice').forEach(btn => {
+      if (btn.textContent.trim() === value) btn.classList.add('sel');
+    });
+    return;
+  }
+
+  // Map field names to textarea data attributes
+  const fieldMap = {
+    'biggest-win': 0, 'hardest': 1, 'better-how': 2,
+    'design-quality': 3, 'creative-constraint': 4,
+    'tech-friction': 3, 'tech-debt': 4,
+    'support': 5, 'growth': 6
+  };
+
+  const textareas = form.querySelectorAll('textarea');
+  const fieldKeys = ['biggest-win','hardest','better-how'];
+  const ta = [...textareas].find(t => t.getAttribute('data-field') === field);
+  if (ta) { ta.value = value; return; }
+
+  // Fallback: match by onchange attribute
+  textareas.forEach(t => {
+    if (t.getAttribute('onchange') && t.getAttribute('onchange').includes(`'${field}'`)) {
+      t.value = value;
+    }
+  });
 }
 
 function addStickyEl(areaId, text, cls) {
@@ -508,10 +637,12 @@ async function submitKudo() {
   toast('Shoutout added!');
 }
 
-async function toggleChoice(btn, key, val) {
+async function toggleChoice(btn) {
   if (isReadonly) return;
+  const key = btn.dataset.key;
   btn.classList.toggle('sel');
-  const sel = [...btn.closest('.choices').querySelectorAll('.choice.sel')].map(b=>b.textContent).join(', ');
+  const container = btn.closest('.choices');
+  const sel = [...container.querySelectorAll('.choice.sel')].map(b => b.dataset.val || b.textContent.trim()).join(', ');
   await save('collab', key+'-choices', sel);
 }
 
@@ -526,39 +657,30 @@ function addMember() {
   const role = document.getElementById('ci-role').value;
   if (!name) return;
   const id = 'mbr_' + Date.now();
-  const av = avCls[memberCount % avCls.length];
-  const init = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  memberCount++;
-  const tabs = document.getElementById('member-tabs');
-  const tab = document.createElement('button');
-  tab.className = 'm-tab';
-  tab.id = 'tab_'+id;
-  tab.innerHTML = `<span class="dot" id="dot_${id}"></span>${name} <span class="role-badge ${role==='ux'?'rb-ux':'rb-dev'}">${role==='ux'?'UX/UI':'Dev'}</span>`;
-  tab.onclick = () => switchMember(id, tab);
-  tabs.appendChild(tab);
-  document.getElementById('prog-wrap').style.display = 'block';
-  buildMemberForm(id, name, role, av, init);
+  buildMemberFromData(id, name, role);
   document.getElementById('ci-name').value = '';
-  switchMember(id, tab);
-  updateProg();
+  // Switch to new member tab
+  const tab = document.getElementById('tab_'+id);
+  if (tab) switchMember(id, tab);
 }
 
 function buildMemberForm(id, name, role, av, init) {
   const roleExtra = role === 'ux' ? `
     <div class="card"><div class="q-tag">Design-specific</div>
       <div class="q-text">How happy are you with the quality of design work going out the door? What's holding you back from pushing it further?</div>
-      <textarea placeholder="Your thoughts..." onchange="saveMF('${id}','design-quality',this.value,'${name}','${role}')"></textarea>
+      <textarea data-field="design-quality" placeholder="Your thoughts..." onchange="saveMF('${id}','design-quality',this.value,'${name}','${role}')"></textarea>
       <div class="divider"></div>
       <div class="q-text">Is there a project this quarter where you felt creatively constrained? What would you have done differently?</div>
-      <textarea placeholder="Your thoughts..." onchange="saveMF('${id}','creative-constraint',this.value,'${name}','${role}')"></textarea>
+      <textarea data-field="creative-constraint" placeholder="Your thoughts..." onchange="saveMF('${id}','creative-constraint',this.value,'${name}','${role}')"></textarea>
     </div>` : `
     <div class="card"><div class="q-tag">Dev-specific</div>
       <div class="q-text">Are there parts of the codebase or technical setup creating friction or slowing you down?</div>
-      <textarea placeholder="Your thoughts..." onchange="saveMF('${id}','tech-friction',this.value,'${name}','${role}')"></textarea>
+      <textarea data-field="tech-friction" placeholder="Your thoughts..." onchange="saveMF('${id}','tech-friction',this.value,'${name}','${role}')"></textarea>
       <div class="divider"></div>
       <div class="q-text">Is there any tech debt, tooling, or process you'd want to tackle next quarter?</div>
-      <textarea placeholder="Your thoughts..." onchange="saveMF('${id}','tech-debt',this.value,'${name}','${role}')"></textarea>
+      <textarea data-field="tech-debt" placeholder="Your thoughts..." onchange="saveMF('${id}','tech-debt',this.value,'${name}','${role}')"></textarea>
     </div>`;
+
   const f = document.createElement('div');
   f.className = 'member-form';
   f.id = 'form_'+id;
@@ -569,11 +691,11 @@ function buildMemberForm(id, name, role, av, init) {
     </div>
     <div class="card"><div class="q-tag">This quarter — your biggest win</div>
       <div class="q-text">What are you most proud of delivering this quarter?</div>
-      <textarea placeholder="Be specific — even something small counts." onchange="saveMF('${id}','biggest-win',this.value,'${name}','${role}')"></textarea>
+      <textarea data-field="biggest-win" placeholder="Be specific — even something small counts." onchange="saveMF('${id}','biggest-win',this.value,'${name}','${role}')"></textarea>
     </div>
     <div class="card"><div class="q-tag">This quarter — what felt hardest</div>
       <div class="q-text">What felt most frustrating or difficult this quarter?</div>
-      <textarea placeholder="No judgment here — this is useful information." onchange="saveMF('${id}','hardest',this.value,'${name}','${role}')"></textarea>
+      <textarea data-field="hardest" placeholder="No judgment here — this is useful information." onchange="saveMF('${id}','hardest',this.value,'${name}','${role}')"></textarea>
     </div>
     <div class="card"><div class="q-tag">Right now — workload</div>
       <div class="q-text">What's your current workload feeling like?</div>
@@ -585,15 +707,15 @@ function buildMemberForm(id, name, role, av, init) {
       </div>
       <div class="divider"></div>
       <div class="q-text">What's one thing that would make your day-to-day work noticeably better?</div>
-      <textarea placeholder="Practical things welcome — tools, process, communication..." onchange="saveMF('${id}','better-how',this.value,'${name}','${role}')"></textarea>
+      <textarea data-field="better-how" placeholder="Practical things welcome — tools, process, communication..." onchange="saveMF('${id}','better-how',this.value,'${name}','${role}')"></textarea>
     </div>
     ${roleExtra}
     <div class="card"><div class="q-tag">Support & growth</div>
       <div class="q-text">Do you feel like you have the support you need to do your best work?</div>
-      <textarea placeholder="Anything you wish you had more of — time, feedback, clarity, resource?" onchange="saveMF('${id}','support',this.value,'${name}','${role}')"></textarea>
+      <textarea data-field="support" placeholder="Anything you wish you had more of — time, feedback, clarity, resource?" onchange="saveMF('${id}','support',this.value,'${name}','${role}')"></textarea>
       <div class="divider"></div>
       <div class="q-text">What do you want to learn or develop next quarter?</div>
-      <textarea placeholder="Skills, tools, areas of work..." onchange="saveMF('${id}','growth',this.value,'${name}','${role}')"></textarea>
+      <textarea data-field="growth" placeholder="Skills, tools, areas of work..." onchange="saveMF('${id}','growth',this.value,'${name}','${role}')"></textarea>
     </div>
     <div style="margin-top:10px"><button class="btn btn-green" onclick="markDone('${id}')">Mark as complete ✓</button></div>`;
   document.getElementById('member-forms').appendChild(f);
@@ -658,7 +780,6 @@ async function loadHistory() {
 
   const byQ = {};
   data.forEach(r => { const q = r.quarter||'Unknown'; if (!byQ[q]) byQ[q]={}; if (!byQ[q][r.section]) byQ[q][r.section]=[]; byQ[q][r.section].push(r); });
-
   const secLabels = { warmup:'Warm up', wins:'Wins & highlights', checkin:'Individual check-ins', collab:'How we work together', next:'Next quarter' };
   const stickyQs = ['oneword','projwins','personalwins','tools','prios','stop','start','keep','learn','onething'];
   const stickyClsMap = { oneword:'s-purple', projwins:'s-green', personalwins:'s-purple', tools:'s-blue', prios:'s-purple', stop:'s-amber', start:'s-green', keep:'s-purple', learn:'s-blue', onething:'s-coral' };
@@ -670,7 +791,6 @@ async function loadHistory() {
     const wrap = document.createElement('div');
     wrap.className = 'history-quarter';
     let html = `<div class="history-q-title">${quarter}<span class="history-q-count">${total} responses</span></div>`;
-
     Object.keys(qData).forEach(sec => {
       const items = qData[sec];
       html += `<div class="history-sec"><div class="history-sec-title">${secLabels[sec]||sec}</div>`;
