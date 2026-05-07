@@ -20,60 +20,46 @@
     --radius: 10px; --radius-sm: 6px;
   }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
-  /* HEADER */
   .header { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
-  .header-left { display: flex; align-items: center; gap: 16px; }
+  .header-left { display: flex; align-items: center; gap: 12px; }
   .logo { font-size: 15px; font-weight: 600; color: var(--text); letter-spacing: -0.02em; }
   .logo span { color: var(--purple-dark); }
-  .quarter-badge { background: var(--purple-light); color: var(--purple-dark); font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
-  .header-actions { display: flex; gap: 8px; align-items: center; }
-  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; display: inline-block; margin-right: 4px; }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); animation: pulse 2s infinite; display: inline-block; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-  .live-label { font-size: 12px; color: var(--text-2); display: flex; align-items: center; gap: 4px; }
-
-  /* NAV */
+  .live-label { font-size: 12px; color: var(--text-2); display: flex; align-items: center; gap: 6px; }
+  .q-selector select { font-family: inherit; font-size: 13px; font-weight: 500; color: var(--purple-dark); background: var(--purple-light); border: 0.5px solid var(--purple-mid); border-radius: 20px; padding: 5px 28px 5px 12px; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%233C3489' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
+  .q-selector select:focus { outline: none; }
+  .viewing-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: var(--amber-light); color: var(--amber-dark); border: 0.5px solid var(--amber-mid); display: none; }
+  .viewing-badge.show { display: inline-block; }
   .nav-wrap { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 0 2rem; overflow-x: auto; }
-  .nav { display: flex; gap: 0; }
+  .nav { display: flex; }
   .nav-btn { padding: 14px 20px; font-size: 13px; color: var(--text-2); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: all .15s; font-family: inherit; }
   .nav-btn:hover { color: var(--text); }
   .nav-btn.active { color: var(--purple-dark); border-bottom-color: var(--purple); font-weight: 500; }
-
-  /* LAYOUT */
   .page { max-width: 820px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
   .section { display: none; }
   .section.active { display: block; }
   .sec-header { margin-bottom: 1.5rem; }
   .sec-title { font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
   .sec-sub { font-size: 14px; color: var(--text-2); line-height: 1.6; }
-
-  /* CARDS */
   .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 12px; }
   .q-tag { font-size: 11px; font-weight: 600; color: var(--text-3); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 8px; }
   .q-text { font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 14px; font-weight: 500; }
   .q-hint { font-size: 13px; color: var(--text-3); margin-bottom: 10px; line-height: 1.5; }
-
-  /* INPUTS */
-  input[type=text], textarea, select { font-family: inherit; font-size: 14px; color: var(--text); background: var(--bg); border: 0.5px solid var(--border-strong); border-radius: var(--radius-sm); padding: 9px 12px; width: 100%; transition: border .12s; }
-  input[type=text]:focus, textarea:focus, select:focus { outline: none; border-color: var(--purple); background: var(--surface); }
+  input[type=text], textarea { font-family: inherit; font-size: 14px; color: var(--text); background: var(--bg); border: 0.5px solid var(--border-strong); border-radius: var(--radius-sm); padding: 9px 12px; width: 100%; transition: border .12s; }
+  input[type=text]:focus, textarea:focus { outline: none; border-color: var(--purple); background: var(--surface); }
   textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
-  select { cursor: pointer; }
-
-  /* BUTTONS */
+  select.field { font-family: inherit; font-size: 14px; color: var(--text); background: var(--bg); border: 0.5px solid var(--border-strong); border-radius: var(--radius-sm); padding: 9px 12px; width: 100%; }
+  select.field:focus { outline: none; border-color: var(--purple); }
   .btn { padding: 8px 18px; border-radius: var(--radius-sm); border: 0.5px solid var(--border-strong); background: var(--surface); color: var(--text); font-size: 13px; cursor: pointer; font-family: inherit; transition: all .12s; white-space: nowrap; }
   .btn:hover { background: var(--bg); }
-  .btn:active { transform: scale(.98); }
   .btn-primary { background: var(--purple-light); color: var(--purple-dark); border-color: var(--purple-mid); font-weight: 500; }
   .btn-primary:hover { background: var(--purple-mid); }
   .btn-green { background: var(--green-light); color: var(--green-dark); border-color: var(--green-mid); font-weight: 500; }
   .btn-green:hover { background: var(--green-mid); }
-  .btn-sm { padding: 5px 12px; font-size: 12px; }
-  .save-indicator { font-size: 12px; color: var(--teal-dark); display: none; align-items: center; gap: 5px; }
-  .save-indicator.show { display: flex; }
-
-  /* STICKY NOTES */
   .sticky-area { display: flex; flex-wrap: wrap; gap: 8px; min-height: 50px; padding: 4px 0 8px; }
-  .sticky { padding: 9px 13px; border-radius: 6px; font-size: 13px; line-height: 1.4; max-width: 210px; word-break: break-word; position: relative; }
+  .sticky { padding: 9px 13px; border-radius: 6px; font-size: 13px; line-height: 1.4; max-width: 210px; word-break: break-word; }
   .sticky-del { font-size: 10px; margin-left: 6px; opacity: .4; cursor: pointer; vertical-align: middle; }
   .sticky-del:hover { opacity: 1; }
   .s-green { background: #9FE1CB; color: #085041; }
@@ -81,34 +67,22 @@
   .s-amber { background: #FAC775; color: #633806; }
   .s-blue { background: #B5D4F4; color: #0C447C; }
   .s-coral { background: #F5C4B3; color: #712B13; }
-  .sticky-empty { font-size: 13px; color: var(--text-3); font-style: italic; padding: 6px 0; }
-
-  /* ADD ROW */
   .add-row { display: flex; gap: 8px; margin-top: 8px; }
   .add-row input { flex: 1; }
-
-  /* RATINGS */
   .rating-group { display: flex; flex-direction: column; gap: 14px; }
-  .rating-item { display: flex; align-items: center; gap: 14px; }
+  .rating-item { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
   .rating-label { font-size: 13px; color: var(--text-2); min-width: 160px; }
   .rating-btns { display: flex; gap: 6px; }
-  .r-btn { width: 36px; height: 36px; border-radius: 6px; border: 0.5px solid var(--border-strong); background: var(--surface); color: var(--text-2); font-size: 13px; cursor: pointer; transition: all .12s; font-family: inherit; font-weight: 500; }
-  .r-btn:hover { background: var(--bg); }
+  .r-btn { width: 36px; height: 36px; border-radius: 6px; border: 0.5px solid var(--border-strong); background: var(--surface); color: var(--text-2); font-size: 13px; cursor: pointer; font-family: inherit; font-weight: 500; transition: all .12s; }
   .r-btn.sel-low { background: var(--amber-light); color: var(--amber-dark); border-color: var(--amber-mid); }
   .r-btn.sel-mid { background: var(--blue-light); color: var(--blue-dark); border-color: var(--blue-mid); }
   .r-btn.sel-high { background: var(--teal-light); color: var(--teal-dark); border-color: var(--teal-mid); }
-  .rating-legend { font-size: 11px; color: var(--text-3); margin-top: 6px; }
-
-  /* CHOICES */
+  .rating-legend { font-size: 11px; color: var(--text-3); margin-top: 8px; }
   .choices { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
-  .choice { padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border-strong); background: var(--surface); color: var(--text-2); font-size: 13px; cursor: pointer; transition: all .12s; font-family: inherit; }
-  .choice:hover { background: var(--bg); }
+  .choice { padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border-strong); background: var(--surface); color: var(--text-2); font-size: 13px; cursor: pointer; font-family: inherit; transition: all .12s; }
   .choice.sel { background: var(--purple-light); color: var(--purple-dark); border-color: var(--purple-mid); font-weight: 500; }
-
-  /* MEMBER TABS */
   .member-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; }
   .m-tab { padding: 7px 16px; border-radius: 20px; border: 0.5px solid var(--border-strong); background: var(--surface); color: var(--text-2); font-size: 13px; cursor: pointer; font-family: inherit; transition: all .12s; display: flex; align-items: center; gap: 8px; }
-  .m-tab:hover { background: var(--bg); }
   .m-tab.active { background: var(--purple-light); color: var(--purple-dark); border-color: var(--purple-mid); font-weight: 500; }
   .m-tab .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); flex-shrink: 0; transition: background .2s; }
   .m-tab.done .dot { background: var(--teal); }
@@ -117,52 +91,40 @@
   .rb-dev { background: var(--teal-light); color: var(--teal-dark); }
   .member-form { display: none; }
   .member-form.active { display: block; }
-
-  /* AVATAR */
   .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; flex-shrink: 0; }
   .av-p { background: var(--purple-mid); color: var(--purple-dark); }
   .av-t { background: var(--teal-mid); color: var(--teal-dark); }
   .av-b { background: var(--blue-mid); color: var(--blue-dark); }
   .av-a { background: var(--amber-mid); color: var(--amber-dark); }
   .av-c { background: var(--coral-mid); color: var(--coral-dark); }
-
-  /* KUDOS */
   .kudo-card { display: flex; gap: 12px; align-items: flex-start; padding: 1rem 1.25rem; border: 0.5px solid var(--border); border-radius: var(--radius); background: var(--surface); margin-bottom: 8px; }
   .kudo-body { font-size: 14px; color: var(--text); line-height: 1.5; }
   .kudo-from { font-size: 12px; color: var(--text-3); margin-top: 4px; }
-
-  /* PROGRESS */
   .prog-wrap { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin: 1rem 0 6px; }
   .prog-bar { height: 4px; background: var(--purple); border-radius: 2px; transition: width .3s; }
   .prog-label { font-size: 12px; color: var(--text-3); margin-bottom: 1.25rem; }
-
-  /* RESPONSES PANEL */
-  .responses-panel { margin-top: 1rem; border-top: 0.5px solid var(--border); padding-top: 1rem; }
-  .responses-title { font-size: 12px; font-weight: 600; color: var(--text-3); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; }
-  .response-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
-  .response-item:last-child { border-bottom: none; }
-  .response-name { font-weight: 500; min-width: 90px; color: var(--text); }
-  .response-val { color: var(--text-2); line-height: 1.5; }
-
-  /* GRID */
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } .rating-item { flex-direction: column; align-items: flex-start; } }
-
-  /* NOTICE */
-  .notice { background: var(--purple-light); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; color: var(--purple-dark); margin-bottom: 1rem; line-height: 1.5; }
-
-  /* TOAST */
+  .divider { height: 0.5px; background: var(--border); margin: 1.25rem 0; }
   .toast { position: fixed; bottom: 24px; right: 24px; background: var(--text); color: #fff; padding: 10px 18px; border-radius: var(--radius-sm); font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 999; }
   .toast.show { opacity: 1; }
-
-  /* DIVIDER */
-  .divider { height: 0.5px; background: var(--border); margin: 1.25rem 0; }
-
-  /* SETUP FORM */
+  .readonly-banner { background: var(--amber-light); border: 0.5px solid var(--amber-mid); border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: var(--amber-dark); margin-bottom: 1.5rem; display: none; line-height: 1.6; }
+  .readonly-banner.show { display: block; }
+  body.readonly input[type=text], body.readonly textarea, body.readonly .btn-primary, body.readonly .btn-green { pointer-events: none; opacity: 0.55; }
   .setup-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 12px; }
-  .member-setup-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
-
-  input[type=date] { font-family: inherit; font-size: 14px; color: var(--text); background: var(--bg); border: 0.5px solid var(--border-strong); border-radius: var(--radius-sm); padding: 9px 12px; cursor: pointer; }
+  .member-setup-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  /* HISTORY */
+  .history-quarter { margin-bottom: 2.5rem; }
+  .history-q-title { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 1rem; padding-bottom: 10px; border-bottom: 1.5px solid var(--border-strong); display: flex; align-items: center; justify-content: space-between; }
+  .history-q-count { font-size: 13px; font-weight: 400; color: var(--text-3); }
+  .history-sec { margin-bottom: 1.5rem; }
+  .history-sec-title { font-size: 11px; font-weight: 600; color: var(--text-3); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 10px; }
+  .history-row { display: flex; gap: 12px; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 14px; line-height: 1.5; }
+  .history-row:last-child { border-bottom: none; }
+  .history-who { font-weight: 600; color: var(--text); min-width: 90px; flex-shrink: 0; }
+  .history-val { color: var(--text-2); }
+  .history-stickies { display: flex; flex-wrap: wrap; gap: 8px; }
+  .empty-state { font-size: 14px; color: var(--text-3); font-style: italic; padding: 3rem 0; text-align: center; }
+  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } .header { flex-wrap: wrap; height: auto; padding: 10px 1rem; gap: 8px; } }
 </style>
 </head>
 <body>
@@ -170,10 +132,20 @@
 <div class="header">
   <div class="header-left">
     <div class="logo">Bond <span>&</span> Coyne</div>
-    <div class="quarter-badge" id="q-badge">Digital Quarterly</div>
+    <div class="q-selector">
+      <select id="quarter-select" onchange="onQuarterChange()">
+        <option value="Q3 2026" selected>Q3 2026 — current</option>
+        <option value="Q4 2026">Q4 2026</option>
+        <option value="Q1 2027">Q1 2027</option>
+        <option value="Q2 2027">Q2 2027</option>
+        <option value="Q3 2027">Q3 2027</option>
+        <option value="Q4 2027">Q4 2027</option>
+      </select>
+    </div>
+    <span class="viewing-badge" id="viewing-badge">Viewing past quarter</span>
   </div>
-  <div class="header-actions">
-    <div class="live-label"><span class="live-dot"></span> Live — responses sync in real time</div>
+  <div class="header-right">
+    <div class="live-label"><span class="live-dot"></span> Live</div>
   </div>
 </div>
 
@@ -184,18 +156,20 @@
     <button class="nav-btn" onclick="show('checkin',this)">3. Individual check-in</button>
     <button class="nav-btn" onclick="show('collab',this)">4. How we work together</button>
     <button class="nav-btn" onclick="show('next',this)">5. Next quarter</button>
+    <button class="nav-btn" onclick="show('history',this)">History</button>
   </div>
 </div>
 
 <div class="page">
 
-  <!-- 1. WARM UP -->
-  <div class="section active" id="sec-warmup">
-    <div class="sec-header">
-      <div class="sec-title">Warm up</div>
-      <div class="sec-sub">A quick round before diving in. Fill in your answers — everyone can see responses appear in real time.</div>
-    </div>
+  <div class="readonly-banner" id="readonly-banner">
+    You are viewing <strong id="readonly-qname"></strong> — this is a past quarter. Everything here is read-only.
+    <a href="#" onclick="resetToLive();return false;" style="margin-left:12px;color:var(--amber-dark);font-weight:600;text-decoration:none">Back to Q3 2026 →</a>
+  </div>
 
+  <!-- WARM UP -->
+  <div class="section active" id="sec-warmup">
+    <div class="sec-header"><div class="sec-title">Warm up</div><div class="sec-sub">A quick round before diving in. Fill in your answers — everyone can see responses appear in real time.</div></div>
     <div class="card">
       <div class="q-tag">Round 1 — One word</div>
       <div class="q-text">One word to describe how this quarter felt for you.</div>
@@ -206,13 +180,12 @@
         <button class="btn btn-primary" onclick="submitOneWord()">Add</button>
       </div>
     </div>
-
     <div class="card">
       <div class="q-tag">Round 2 — Team temperature</div>
       <div class="q-text">How energised are you feeling going into this session?</div>
       <div class="q-hint">1 = running on fumes &nbsp;·&nbsp; 5 = fully charged</div>
       <div id="temp-responses"></div>
-      <div class="add-row" style="flex-wrap:wrap">
+      <div class="add-row" style="flex-wrap:wrap;margin-top:12px">
         <input type="text" id="t-name" placeholder="Your name..." style="max-width:160px">
         <div style="display:flex;gap:6px" id="temp-rate-btns">
           <button class="r-btn" onclick="pickTempRate(this)">1</button>
@@ -226,83 +199,55 @@
     </div>
   </div>
 
-  <!-- 2. WINS -->
+  <!-- WINS -->
   <div class="section" id="sec-wins">
-    <div class="sec-header">
-      <div class="sec-title">Wins & highlights</div>
-      <div class="sec-sub">Celebrate what the team has delivered this quarter. Be specific — call people out, make it stick.</div>
-    </div>
-
+    <div class="sec-header"><div class="sec-title">Wins & highlights</div><div class="sec-sub">Celebrate what the team has delivered this quarter. Be specific — call people out, make it stick.</div></div>
     <div class="card">
       <div class="q-tag">Project wins</div>
       <div class="q-text">What projects or deliverables are you most proud of this quarter?</div>
       <div class="q-hint">Add one sticky each — the thing you'd tell a client about.</div>
       <div class="sticky-area" id="sa-projwins"></div>
-      <div class="add-row">
-        <input type="text" id="pw-val" placeholder="e.g. Launched the Schroders redesign ahead of schedule..." onkeydown="if(event.key==='Enter')submitSticky('projwins','pw-val','s-green')">
-        <button class="btn btn-primary" onclick="submitSticky('projwins','pw-val','s-green')">Add</button>
-      </div>
+      <div class="add-row"><input type="text" id="pw-val" placeholder="e.g. Launched the Schroders redesign ahead of schedule..." onkeydown="if(event.key==='Enter')submitSticky('projwins','pw-val','s-green')"><button class="btn btn-primary" onclick="submitSticky('projwins','pw-val','s-green')">Add</button></div>
     </div>
-
     <div class="card">
       <div class="q-tag">Personal wins</div>
       <div class="q-text">Something you personally cracked this quarter — a skill, a problem solved, a moment you felt proud of.</div>
       <div class="sticky-area" id="sa-personalwins"></div>
-      <div class="add-row">
-        <input type="text" id="pers-val" placeholder="e.g. First time leading a design crit..." onkeydown="if(event.key==='Enter')submitSticky('personalwins','pers-val','s-purple')">
-        <button class="btn btn-primary" onclick="submitSticky('personalwins','pers-val','s-purple')">Add</button>
-      </div>
+      <div class="add-row"><input type="text" id="pers-val" placeholder="e.g. First time leading a design crit..." onkeydown="if(event.key==='Enter')submitSticky('personalwins','pers-val','s-purple')"><button class="btn btn-primary" onclick="submitSticky('personalwins','pers-val','s-purple')">Add</button></div>
     </div>
-
     <div class="card">
       <div class="q-tag">Kudos — shoutout someone</div>
       <div class="q-text">Who made your work easier, better, or more enjoyable this quarter?</div>
       <div id="kudos-list"></div>
-      <div class="grid-2" style="margin-top:10px">
-        <input type="text" id="k-to" placeholder="Shoutout to...">
-        <input type="text" id="k-from" placeholder="From...">
-      </div>
+      <div class="grid-2" style="margin-top:10px"><input type="text" id="k-to" placeholder="Shoutout to..."><input type="text" id="k-from" placeholder="From..."></div>
       <textarea id="k-msg" placeholder="What did they do? Be specific — the more real the better." style="margin-top:8px;min-height:64px"></textarea>
       <button class="btn btn-primary" style="margin-top:10px" onclick="submitKudo()">Add shoutout</button>
     </div>
   </div>
 
-  <!-- 3. CHECK-IN -->
+  <!-- CHECK-IN -->
   <div class="section" id="sec-checkin">
-    <div class="sec-header">
-      <div class="sec-title">Individual check-in</div>
-      <div class="sec-sub">Each person fills in their own section. Click your name tab below. Responses are saved automatically.</div>
-    </div>
-
+    <div class="sec-header"><div class="sec-title">Individual check-in</div><div class="sec-sub">Each person fills in their own section. Click your name tab below. Responses save automatically.</div></div>
     <div class="setup-card">
       <div class="q-tag">Add yourself to get started</div>
       <div class="member-setup-row">
         <input type="text" id="ci-name" placeholder="Your name..." style="max-width:200px" onkeydown="if(event.key==='Enter')addMember()">
-        <select id="ci-role" style="max-width:180px">
-          <option value="ux">UX/UI designer</option>
-          <option value="dev">Developer</option>
-        </select>
+        <select class="field" id="ci-role" style="max-width:180px"><option value="ux">UX/UI designer</option><option value="dev">Developer</option></select>
         <button class="btn btn-primary" onclick="addMember()">Add +</button>
       </div>
     </div>
-
     <div class="member-tabs" id="member-tabs"></div>
     <div class="prog-wrap" id="prog-wrap" style="display:none"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
     <div class="prog-label" id="prog-label"></div>
     <div id="member-forms"></div>
   </div>
 
-  <!-- 4. COLLAB -->
+  <!-- COLLAB -->
   <div class="section" id="sec-collab">
-    <div class="sec-header">
-      <div class="sec-title">How we work together</div>
-      <div class="sec-sub">Group questions for the whole team. Select options that resonate and add notes below each one.</div>
-    </div>
-
+    <div class="sec-header"><div class="sec-title">How we work together</div><div class="sec-sub">Group questions for the whole team. Select options that resonate and add notes.</div></div>
     <div class="card">
       <div class="q-tag">Design ↔ Dev handoff</div>
       <div class="q-text">How well is the handoff between design and development working right now?</div>
-      <div class="q-hint">Select everything that applies, then discuss as a group.</div>
       <div class="choices" id="ch-handoff">
         <button class="choice" onclick="toggleChoice(this,'handoff','Works well overall')">Works well overall</button>
         <button class="choice" onclick="toggleChoice(this,'handoff','Specs could be clearer')">Specs could be clearer</button>
@@ -312,17 +257,12 @@
       </div>
       <textarea id="ta-handoff" placeholder="Notes from group discussion..." style="margin-top:10px" onchange="saveTextarea('handoff-notes',this.value)"></textarea>
     </div>
-
     <div class="card">
       <div class="q-tag">Tools & process</div>
       <div class="q-text">Any tools, workflows, or processes slowing the team down — or worth trying next quarter?</div>
       <div class="sticky-area" id="sa-tools"></div>
-      <div class="add-row">
-        <input type="text" id="tools-val" placeholder="e.g. Better PR review process, Figma dev mode..." onkeydown="if(event.key==='Enter')submitSticky('tools','tools-val','s-blue')">
-        <button class="btn btn-primary" onclick="submitSticky('tools','tools-val','s-blue')">Add</button>
-      </div>
+      <div class="add-row"><input type="text" id="tools-val" placeholder="e.g. Better PR review process, Figma dev mode..." onkeydown="if(event.key==='Enter')submitSticky('tools','tools-val','s-blue')"><button class="btn btn-primary" onclick="submitSticky('tools','tools-val','s-blue')">Add</button></div>
     </div>
-
     <div class="card">
       <div class="q-tag">Communication & visibility</div>
       <div class="q-text">Do we have enough visibility into what each other is working on?</div>
@@ -334,33 +274,23 @@
       </div>
       <textarea id="ta-comms" placeholder="Notes from group discussion..." style="margin-top:10px" onchange="saveTextarea('comms-notes',this.value)"></textarea>
     </div>
-
     <div class="card">
       <div class="q-tag">Team health check</div>
-      <div class="q-text">Rate the team on each of these — 1 being low, 5 being strong. Discuss any gaps openly.</div>
+      <div class="q-text">Rate the team on each of these — 1 being low, 5 being strong.</div>
       <div class="rating-group" style="margin-top:12px" id="health-group"></div>
-      <div class="rating-legend">1 = needs attention &nbsp;·&nbsp; 3 = holding steady &nbsp;·&nbsp; 5 = firing on all cylinders</div>
+      <div class="rating-legend" style="margin-top:12px">1 = needs attention &nbsp;·&nbsp; 3 = holding steady &nbsp;·&nbsp; 5 = firing on all cylinders</div>
     </div>
   </div>
 
-  <!-- 5. NEXT QUARTER -->
+  <!-- NEXT QUARTER -->
   <div class="section" id="sec-next">
-    <div class="sec-header">
-      <div class="sec-title">Next quarter</div>
-      <div class="sec-sub">Looking ahead — what does the team want to focus on, improve, or try?</div>
-    </div>
-
+    <div class="sec-header"><div class="sec-title">Next quarter</div><div class="sec-sub">Looking ahead — what does the team want to focus on, improve, or try?</div></div>
     <div class="card">
       <div class="q-tag">Priorities</div>
       <div class="q-text">What are the two or three things the digital team most needs to focus on next quarter?</div>
-      <div class="q-hint">Think: projects, quality, process, or people.</div>
       <div class="sticky-area" id="sa-prios"></div>
-      <div class="add-row">
-        <input type="text" id="prios-val" placeholder="e.g. Tighten QA process before launches..." onkeydown="if(event.key==='Enter')submitSticky('prios','prios-val','s-purple')">
-        <button class="btn btn-primary" onclick="submitSticky('prios','prios-val','s-purple')">Add</button>
-      </div>
+      <div class="add-row"><input type="text" id="prios-val" placeholder="e.g. Tighten QA process before launches..." onkeydown="if(event.key==='Enter')submitSticky('prios','prios-val','s-purple')"><button class="btn btn-primary" onclick="submitSticky('prios','prios-val','s-purple')">Add</button></div>
     </div>
-
     <div class="card">
       <div class="q-tag">Stop / Start / Keep</div>
       <div class="q-text">As a team, what should we stop doing, start doing, and keep doing?</div>
@@ -382,32 +312,27 @@
         <div class="add-row"><input type="text" id="keep-val" placeholder="..." onkeydown="if(event.key==='Enter')submitSticky('keep','keep-val','s-purple')"><button class="btn btn-primary" onclick="submitSticky('keep','keep-val','s-purple')">+</button></div>
       </div>
     </div>
-
     <div class="card">
       <div class="q-tag">Learning & growth</div>
       <div class="q-text">What does the team want to learn, explore, or invest in next quarter?</div>
-      <div class="q-hint">Tools, techniques, side experiments, talks — anything.</div>
       <div class="sticky-area" id="sa-learn"></div>
-      <div class="add-row">
-        <input type="text" id="learn-val" placeholder="e.g. Motion design, accessibility auditing, AI-assisted dev..." onkeydown="if(event.key==='Enter')submitSticky('learn','learn-val','s-blue')">
-        <button class="btn btn-primary" onclick="submitSticky('learn','learn-val','s-blue')">Add</button>
-      </div>
+      <div class="add-row"><input type="text" id="learn-val" placeholder="e.g. Motion design, accessibility auditing, AI-assisted dev..." onkeydown="if(event.key==='Enter')submitSticky('learn','learn-val','s-blue')"><button class="btn btn-primary" onclick="submitSticky('learn','learn-val','s-blue')">Add</button></div>
     </div>
-
     <div class="card">
       <div class="q-tag">One thing</div>
       <div class="q-text">If the team could change just one thing about how we work — what would it be?</div>
-      <div class="q-hint">One sticky per person.</div>
       <div class="sticky-area" id="sa-onething"></div>
-      <div class="add-row">
-        <input type="text" id="one-val" placeholder="Your one thing..." onkeydown="if(event.key==='Enter')submitSticky('onething','one-val','s-coral')">
-        <button class="btn btn-primary" onclick="submitSticky('onething','one-val','s-coral')">Add</button>
-      </div>
+      <div class="add-row"><input type="text" id="one-val" placeholder="Your one thing..." onkeydown="if(event.key==='Enter')submitSticky('onething','one-val','s-coral')"><button class="btn btn-primary" onclick="submitSticky('onething','one-val','s-coral')">Add</button></div>
     </div>
   </div>
 
-</div>
+  <!-- HISTORY -->
+  <div class="section" id="sec-history">
+    <div class="sec-header"><div class="sec-title">Session history</div><div class="sec-sub">A full record of every quarterly session. All responses are stored here permanently — nothing gets lost between quarters.</div></div>
+    <div id="history-content"><div class="empty-state">Loading history...</div></div>
+  </div>
 
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -415,17 +340,18 @@ const SUPABASE_URL = 'https://tiyxvlgkmvhwjacceomb.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpeXh2bGdrbXZod2phY2Nlb21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxMTI2MzIsImV4cCI6MjA5MzY4ODYzMn0.eRi1VvBwXPny-pN1VazpJqI-ZmWpw5jwT22Fw-_hrK8';
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const CURRENT_QUARTER = 'Q3 2026';
 const avCls = ['av-p','av-t','av-b','av-a','av-c'];
-let memberCount = 0;
-let kudoCount = 0;
-let tempRateVal = null;
-let memberList = [];
+let memberCount = 0, kudoCount = 0, tempRateVal = null;
+let activeQuarter = CURRENT_QUARTER;
+let isReadonly = false;
 
 function show(id, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('sec-'+id).classList.add('active');
   btn.classList.add('active');
+  if (id === 'history') loadHistory();
 }
 
 function toast(msg) {
@@ -435,44 +361,72 @@ function toast(msg) {
   setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-async function save(section, question, answer, name='', role='') {
-  if (!answer || !answer.toString().trim()) return;
-  await sb.from('responses').insert({ section, question, answer: answer.toString(), name, role });
+function onQuarterChange() {
+  const sel = document.getElementById('quarter-select').value;
+  activeQuarter = sel;
+  if (sel !== CURRENT_QUARTER) {
+    isReadonly = true;
+    document.body.classList.add('readonly');
+    document.getElementById('readonly-banner').classList.add('show');
+    document.getElementById('readonly-qname').textContent = sel;
+    document.getElementById('viewing-badge').classList.add('show');
+  } else {
+    isReadonly = false;
+    document.body.classList.remove('readonly');
+    document.getElementById('readonly-banner').classList.remove('show');
+    document.getElementById('viewing-badge').classList.remove('show');
+  }
+  clearBoard();
+  loadForQuarter(sel);
 }
 
-async function loadAll() {
-  const { data } = await sb.from('responses').select('*').order('created_at');
-  if (!data) return;
-  data.forEach(r => renderResponse(r));
+function resetToLive() {
+  document.getElementById('quarter-select').value = CURRENT_QUARTER;
+  onQuarterChange();
+}
+
+function clearBoard() {
+  ['oneword','projwins','personalwins','tools','prios','stop','start','keep','learn','onething'].forEach(id => {
+    const el = document.getElementById('sa-'+id);
+    if (el) el.innerHTML = '';
+  });
+  document.getElementById('kudos-list').innerHTML = '';
+  document.getElementById('temp-responses').innerHTML = '';
+  kudoCount = 0;
+}
+
+async function save(section, question, answer, name='', role='') {
+  if (!answer || !answer.toString().trim() || isReadonly) return;
+  await sb.from('responses').insert({ section, question, answer: answer.toString(), name, role, quarter: activeQuarter });
+}
+
+async function loadForQuarter(quarter) {
+  const { data } = await sb.from('responses').select('*').eq('quarter', quarter).order('created_at');
+  if (data) data.forEach(r => renderResponse(r));
 }
 
 function renderResponse(r) {
-  const { section, question, answer, name, role } = r;
-
-  if (section === 'warmup' && question === 'oneword') {
-    addStickyEl('sa-oneword', answer, 's-purple', false);
-  }
-  if (section === 'warmup' && question === 'temperature') {
-    addTempEl(name, answer);
-  }
-  if (section === 'wins' && question === 'projwins') addStickyEl('sa-projwins', answer, 's-green', false);
-  if (section === 'wins' && question === 'personalwins') addStickyEl('sa-personalwins', answer, 's-purple', false);
-  if (section === 'wins' && question === 'kudo') renderKudo(answer);
-  if (section === 'collab' && question === 'tools') addStickyEl('sa-tools', answer, 's-blue', false);
-  if (section === 'next' && question === 'prios') addStickyEl('sa-prios', answer, 's-purple', false);
-  if (section === 'next' && question === 'stop') addStickyEl('sa-stop', answer, 's-amber', false);
-  if (section === 'next' && question === 'start') addStickyEl('sa-start', answer, 's-green', false);
-  if (section === 'next' && question === 'keep') addStickyEl('sa-keep', answer, 's-purple', false);
-  if (section === 'next' && question === 'learn') addStickyEl('sa-learn', answer, 's-blue', false);
-  if (section === 'next' && question === 'onething') addStickyEl('sa-onething', answer, 's-coral', false);
+  const { section, question, answer, name } = r;
+  if (section==='warmup' && question==='oneword') addStickyEl('sa-oneword', answer, 's-purple');
+  if (section==='warmup' && question==='temperature') addTempEl(name, answer);
+  if (section==='wins' && question==='projwins') addStickyEl('sa-projwins', answer, 's-green');
+  if (section==='wins' && question==='personalwins') addStickyEl('sa-personalwins', answer, 's-purple');
+  if (section==='wins' && question==='kudo') renderKudo(answer);
+  if (section==='collab' && question==='tools') addStickyEl('sa-tools', answer, 's-blue');
+  if (section==='next' && question==='prios') addStickyEl('sa-prios', answer, 's-purple');
+  if (section==='next' && question==='stop') addStickyEl('sa-stop', answer, 's-amber');
+  if (section==='next' && question==='start') addStickyEl('sa-start', answer, 's-green');
+  if (section==='next' && question==='keep') addStickyEl('sa-keep', answer, 's-purple');
+  if (section==='next' && question==='learn') addStickyEl('sa-learn', answer, 's-blue');
+  if (section==='next' && question==='onething') addStickyEl('sa-onething', answer, 's-coral');
 }
 
-function addStickyEl(areaId, text, cls, deletable=true) {
+function addStickyEl(areaId, text, cls) {
   const area = document.getElementById(areaId);
   if (!area) return;
   const s = document.createElement('span');
   s.className = 'sticky ' + cls;
-  s.innerHTML = text + (deletable ? '<span class="sticky-del" onclick="this.parentElement.remove()">✕</span>' : '');
+  s.textContent = text;
   area.appendChild(s);
 }
 
@@ -491,12 +445,12 @@ function renderKudo(json) {
     const k = JSON.parse(json);
     const av = avCls[kudoCount++ % avCls.length];
     const init = k.to.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-    const list = document.getElementById('kudos-list');
-    list.innerHTML += `<div class="kudo-card"><div class="avatar ${av}">${init}</div><div><div class="kudo-body"><strong>${k.to}</strong> — ${k.msg}</div><div class="kudo-from">from ${k.from||'Anonymous'} ★</div></div></div>`;
+    document.getElementById('kudos-list').innerHTML += `<div class="kudo-card"><div class="avatar ${av}">${init}</div><div><div class="kudo-body"><strong>${k.to}</strong> — ${k.msg}</div><div class="kudo-from">from ${k.from||'Anonymous'} ★</div></div></div>`;
   } catch(e){}
 }
 
 async function submitOneWord() {
+  if (isReadonly) return;
   const name = document.getElementById('wu-name').value.trim();
   const word = document.getElementById('wu-word').value.trim();
   if (!word) return;
@@ -514,6 +468,7 @@ function pickTempRate(btn) {
 }
 
 async function submitTemp() {
+  if (isReadonly) return;
   const name = document.getElementById('t-name').value.trim();
   if (!name || !tempRateVal) { toast('Add your name and pick a rating'); return; }
   addTempEl(name, tempRateVal);
@@ -524,18 +479,22 @@ async function submitTemp() {
   toast('Added!');
 }
 
-async function submitSticky(section, inputId, cls) {
+const sectionMap = { projwins:'wins', personalwins:'wins', tools:'collab', prios:'next', stop:'next', start:'next', keep:'next', learn:'next', onething:'next' };
+
+async function submitSticky(question, inputId, cls) {
+  if (isReadonly) return;
   const inp = document.getElementById(inputId);
   const val = inp.value.trim();
   if (!val) return;
-  addStickyEl('sa-'+section, val, cls);
-  await save(section === 'projwins' || section === 'personalwins' ? 'wins' : section === 'tools' ? 'collab' : 'next', section, val);
+  addStickyEl('sa-'+question, val, cls);
+  await save(sectionMap[question]||question, question, val);
   inp.value = '';
   inp.focus();
   toast('Saved!');
 }
 
 async function submitKudo() {
+  if (isReadonly) return;
   const to = document.getElementById('k-to').value.trim();
   const from = document.getElementById('k-from').value.trim();
   const msg = document.getElementById('k-msg').value.trim();
@@ -550,16 +509,19 @@ async function submitKudo() {
 }
 
 async function toggleChoice(btn, key, val) {
+  if (isReadonly) return;
   btn.classList.toggle('sel');
   const sel = [...btn.closest('.choices').querySelectorAll('.choice.sel')].map(b=>b.textContent).join(', ');
   await save('collab', key+'-choices', sel);
 }
 
 async function saveTextarea(key, val) {
+  if (isReadonly) return;
   await save('collab', key, val);
 }
 
 function addMember() {
+  if (isReadonly) return;
   const name = document.getElementById('ci-name').value.trim();
   const role = document.getElementById('ci-role').value;
   if (!name) return;
@@ -567,8 +529,6 @@ function addMember() {
   const av = avCls[memberCount % avCls.length];
   const init = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   memberCount++;
-  memberList.push({id, name, role, av, init});
-
   const tabs = document.getElementById('member-tabs');
   const tab = document.createElement('button');
   tab.className = 'm-tab';
@@ -576,7 +536,6 @@ function addMember() {
   tab.innerHTML = `<span class="dot" id="dot_${id}"></span>${name} <span class="role-badge ${role==='ux'?'rb-ux':'rb-dev'}">${role==='ux'?'UX/UI':'Dev'}</span>`;
   tab.onclick = () => switchMember(id, tab);
   tabs.appendChild(tab);
-
   document.getElementById('prog-wrap').style.display = 'block';
   buildMemberForm(id, name, role, av, init);
   document.getElementById('ci-name').value = '';
@@ -585,83 +544,59 @@ function addMember() {
 }
 
 function buildMemberForm(id, name, role, av, init) {
-  const forms = document.getElementById('member-forms');
+  const roleExtra = role === 'ux' ? `
+    <div class="card"><div class="q-tag">Design-specific</div>
+      <div class="q-text">How happy are you with the quality of design work going out the door? What's holding you back from pushing it further?</div>
+      <textarea placeholder="Your thoughts..." onchange="saveMF('${id}','design-quality',this.value,'${name}','${role}')"></textarea>
+      <div class="divider"></div>
+      <div class="q-text">Is there a project this quarter where you felt creatively constrained? What would you have done differently?</div>
+      <textarea placeholder="Your thoughts..." onchange="saveMF('${id}','creative-constraint',this.value,'${name}','${role}')"></textarea>
+    </div>` : `
+    <div class="card"><div class="q-tag">Dev-specific</div>
+      <div class="q-text">Are there parts of the codebase or technical setup creating friction or slowing you down?</div>
+      <textarea placeholder="Your thoughts..." onchange="saveMF('${id}','tech-friction',this.value,'${name}','${role}')"></textarea>
+      <div class="divider"></div>
+      <div class="q-text">Is there any tech debt, tooling, or process you'd want to tackle next quarter?</div>
+      <textarea placeholder="Your thoughts..." onchange="saveMF('${id}','tech-debt',this.value,'${name}','${role}')"></textarea>
+    </div>`;
   const f = document.createElement('div');
   f.className = 'member-form';
   f.id = 'form_'+id;
-
-  const roleExtra = role === 'ux' ? `
-    <div class="card">
-      <div class="q-tag">Design-specific</div>
-      <div class="q-text">How happy are you with the quality of design work going out the door? What's holding you back from pushing it further?</div>
-      <textarea placeholder="Your thoughts..." onchange="saveMemberField('${id}','design-quality',this.value,'${name}','${role}')"></textarea>
-      <div class="divider"></div>
-      <div class="q-text">Is there a project this quarter where you felt creatively constrained? What would you have done differently?</div>
-      <textarea placeholder="Your thoughts..." onchange="saveMemberField('${id}','creative-constraint',this.value,'${name}','${role}')"></textarea>
-    </div>` : `
-    <div class="card">
-      <div class="q-tag">Dev-specific</div>
-      <div class="q-text">Are there parts of the codebase or technical setup creating friction or slowing you down?</div>
-      <textarea placeholder="Your thoughts..." onchange="saveMemberField('${id}','tech-friction',this.value,'${name}','${role}')"></textarea>
-      <div class="divider"></div>
-      <div class="q-text">Is there any tech debt, tooling, or process you'd want to tackle next quarter?</div>
-      <textarea placeholder="Your thoughts..." onchange="saveMemberField('${id}','tech-debt',this.value,'${name}','${role}')"></textarea>
-    </div>`;
-
   f.innerHTML = `
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem">
       <div class="avatar ${av}">${init}</div>
-      <div>
-        <div style="font-size:16px;font-weight:600;color:var(--text)">${name}</div>
-        <div style="font-size:13px;color:var(--text-3)">${role==='ux'?'UX/UI designer':'Developer'}</div>
-      </div>
+      <div><div style="font-size:16px;font-weight:600;color:var(--text)">${name}</div><div style="font-size:13px;color:var(--text-3)">${role==='ux'?'UX/UI designer':'Developer'}</div></div>
     </div>
-
-    <div class="card">
-      <div class="q-tag">This quarter — your biggest win</div>
+    <div class="card"><div class="q-tag">This quarter — your biggest win</div>
       <div class="q-text">What are you most proud of delivering this quarter?</div>
-      <div class="q-hint">Be specific — even something small counts.</div>
-      <textarea placeholder="Your answer..." onchange="saveMemberField('${id}','biggest-win',this.value,'${name}','${role}')"></textarea>
+      <textarea placeholder="Be specific — even something small counts." onchange="saveMF('${id}','biggest-win',this.value,'${name}','${role}')"></textarea>
     </div>
-
-    <div class="card">
-      <div class="q-tag">This quarter — what felt hardest</div>
+    <div class="card"><div class="q-tag">This quarter — what felt hardest</div>
       <div class="q-text">What felt most frustrating or difficult this quarter?</div>
-      <div class="q-hint">No judgment here — this is useful information.</div>
-      <textarea placeholder="Your answer..." onchange="saveMemberField('${id}','hardest',this.value,'${name}','${role}')"></textarea>
+      <textarea placeholder="No judgment here — this is useful information." onchange="saveMF('${id}','hardest',this.value,'${name}','${role}')"></textarea>
     </div>
-
-    <div class="card">
-      <div class="q-tag">Right now — workload</div>
+    <div class="card"><div class="q-tag">Right now — workload</div>
       <div class="q-text">What's your current workload feeling like?</div>
       <div class="choices">
-        <button class="choice" onclick="saveMemberChoice(this,'${id}','workload','Comfortable','${name}','${role}')">Comfortable</button>
-        <button class="choice" onclick="saveMemberChoice(this,'${id}','workload','Busy but fine','${name}','${role}')">Busy but fine</button>
-        <button class="choice" onclick="saveMemberChoice(this,'${id}','workload','Stretched','${name}','${role}')">Stretched</button>
-        <button class="choice" onclick="saveMemberChoice(this,'${id}','workload','Overwhelmed','${name}','${role}')">Overwhelmed</button>
+        <button class="choice" onclick="saveMC(this,'${id}','workload','Comfortable','${name}','${role}')">Comfortable</button>
+        <button class="choice" onclick="saveMC(this,'${id}','workload','Busy but fine','${name}','${role}')">Busy but fine</button>
+        <button class="choice" onclick="saveMC(this,'${id}','workload','Stretched','${name}','${role}')">Stretched</button>
+        <button class="choice" onclick="saveMC(this,'${id}','workload','Overwhelmed','${name}','${role}')">Overwhelmed</button>
       </div>
       <div class="divider"></div>
       <div class="q-text">What's one thing that would make your day-to-day work noticeably better?</div>
-      <textarea placeholder="Practical things welcome — tools, process, communication..." onchange="saveMemberField('${id}','better-how',this.value,'${name}','${role}')"></textarea>
+      <textarea placeholder="Practical things welcome — tools, process, communication..." onchange="saveMF('${id}','better-how',this.value,'${name}','${role}')"></textarea>
     </div>
-
     ${roleExtra}
-
-    <div class="card">
-      <div class="q-tag">Support & growth</div>
+    <div class="card"><div class="q-tag">Support & growth</div>
       <div class="q-text">Do you feel like you have the support you need to do your best work?</div>
-      <div class="q-hint">Is there anything you wish you had more of — time, feedback, clarity, resource?</div>
-      <textarea placeholder="Your thoughts..." onchange="saveMemberField('${id}','support',this.value,'${name}','${role}')"></textarea>
+      <textarea placeholder="Anything you wish you had more of — time, feedback, clarity, resource?" onchange="saveMF('${id}','support',this.value,'${name}','${role}')"></textarea>
       <div class="divider"></div>
       <div class="q-text">What do you want to learn or develop next quarter?</div>
-      <textarea placeholder="Skills, tools, areas of work..." onchange="saveMemberField('${id}','growth',this.value,'${name}','${role}')"></textarea>
+      <textarea placeholder="Skills, tools, areas of work..." onchange="saveMF('${id}','growth',this.value,'${name}','${role}')"></textarea>
     </div>
-
-    <div style="margin-top:10px;display:flex;align-items:center;gap:12px">
-      <button class="btn btn-green" onclick="markDone('${id}')">Mark as complete ✓</button>
-    </div>`;
-
-  forms.appendChild(f);
+    <div style="margin-top:10px"><button class="btn btn-green" onclick="markDone('${id}')">Mark as complete ✓</button></div>`;
+  document.getElementById('member-forms').appendChild(f);
 }
 
 function switchMember(id, tab) {
@@ -671,12 +606,13 @@ function switchMember(id, tab) {
   tab.classList.add('active');
 }
 
-async function saveMemberField(id, question, value, name, role) {
-  if (!value.trim()) return;
+async function saveMF(id, question, value, name, role) {
+  if (!value.trim() || isReadonly) return;
   await save('checkin', id+'-'+question, value, name, role);
 }
 
-async function saveMemberChoice(btn, id, question, value, name, role) {
+async function saveMC(btn, id, question, value, name, role) {
+  if (isReadonly) return;
   btn.closest('.choices').querySelectorAll('.choice').forEach(b => b.classList.remove('sel'));
   btn.classList.add('sel');
   await save('checkin', id+'-'+question, value, name, role);
@@ -694,40 +630,79 @@ function updateProg() {
   const tabs = document.querySelectorAll('.m-tab');
   if (!tabs.length) return;
   const done = document.querySelectorAll('.m-tab.done').length;
-  const pct = Math.round(done/tabs.length*100);
-  document.getElementById('prog-bar').style.width = pct+'%';
+  document.getElementById('prog-bar').style.width = Math.round(done/tabs.length*100)+'%';
   document.getElementById('prog-label').textContent = done+' of '+tabs.length+' check-ins complete';
 }
 
-const healthItems = ['Design quality','Code quality','Team communication','Work-life balance'];
-const healthGroup = document.getElementById('health-group');
-healthItems.forEach(item => {
+// Health ratings
+['Design quality','Code quality','Team communication','Work-life balance'].forEach(item => {
   const div = document.createElement('div');
   div.className = 'rating-item';
-  div.innerHTML = `<div class="rating-label">${item}</div><div class="rating-btns">
-    ${[1,2,3,4,5].map(n=>`<button class="r-btn" onclick="pickHealth(this,'${item}',${n})">${n}</button>`).join('')}
-  </div>`;
-  healthGroup.appendChild(div);
+  div.innerHTML = `<div class="rating-label">${item}</div><div class="rating-btns">${[1,2,3,4,5].map(n=>`<button class="r-btn" onclick="pickHealth(this,'${item}',${n})">${n}</button>`).join('')}</div>`;
+  document.getElementById('health-group').appendChild(div);
 });
 
 async function pickHealth(btn, item, val) {
+  if (isReadonly) return;
   btn.closest('.rating-btns').querySelectorAll('.r-btn').forEach(b => b.classList.remove('sel-low','sel-mid','sel-high'));
   btn.classList.add(val >= 4 ? 'sel-high' : val <= 2 ? 'sel-low' : 'sel-mid');
   await save('collab', 'health-'+item, val);
 }
 
-// Set quarter label
-const now = new Date();
-const q = Math.ceil((now.getMonth()+1)/3);
-document.getElementById('q-badge').textContent = `Q${q} ${now.getFullYear()} — Digital Quarterly`;
+// HISTORY
+async function loadHistory() {
+  const container = document.getElementById('history-content');
+  container.innerHTML = '<div class="empty-state">Loading...</div>';
+  const { data } = await sb.from('responses').select('*').order('created_at');
+  if (!data || !data.length) { container.innerHTML = '<div class="empty-state">No responses recorded yet.</div>'; return; }
 
-// Real-time subscription
-sb.channel('responses').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'responses' }, payload => {
-  renderResponse(payload.new);
+  const byQ = {};
+  data.forEach(r => { const q = r.quarter||'Unknown'; if (!byQ[q]) byQ[q]={}; if (!byQ[q][r.section]) byQ[q][r.section]=[]; byQ[q][r.section].push(r); });
+
+  const secLabels = { warmup:'Warm up', wins:'Wins & highlights', checkin:'Individual check-ins', collab:'How we work together', next:'Next quarter' };
+  const stickyQs = ['oneword','projwins','personalwins','tools','prios','stop','start','keep','learn','onething'];
+  const stickyClsMap = { oneword:'s-purple', projwins:'s-green', personalwins:'s-purple', tools:'s-blue', prios:'s-purple', stop:'s-amber', start:'s-green', keep:'s-purple', learn:'s-blue', onething:'s-coral' };
+
+  container.innerHTML = '';
+  Object.keys(byQ).sort().reverse().forEach(quarter => {
+    const qData = byQ[quarter];
+    const total = Object.values(qData).flat().length;
+    const wrap = document.createElement('div');
+    wrap.className = 'history-quarter';
+    let html = `<div class="history-q-title">${quarter}<span class="history-q-count">${total} responses</span></div>`;
+
+    Object.keys(qData).forEach(sec => {
+      const items = qData[sec];
+      html += `<div class="history-sec"><div class="history-sec-title">${secLabels[sec]||sec}</div>`;
+      const stickies = items.filter(r => stickyQs.includes(r.question));
+      const kudos = items.filter(r => r.question === 'kudo');
+      const others = items.filter(r => !stickyQs.includes(r.question) && r.question !== 'kudo');
+      if (stickies.length) {
+        html += `<div class="history-stickies" style="margin-bottom:12px">`;
+        stickies.forEach(r => { html += `<span class="sticky ${stickyClsMap[r.question]||'s-purple'}">${r.answer}</span>`; });
+        html += `</div>`;
+      }
+      kudos.forEach(r => {
+        try { const k = JSON.parse(r.answer); html += `<div class="history-row"><div class="history-who">${k.from||'Team'}</div><div class="history-val">Shoutout to <strong>${k.to}</strong> — ${k.msg}</div></div>`; } catch(e){}
+      });
+      others.forEach(r => {
+        if (!r.answer || r.answer.length < 2) return;
+        const lbl = r.question.replace(/-/g,' ').replace(/mbr_\d+\-/,'');
+        html += `<div class="history-row"><div class="history-who">${r.name||'Team'}</div><div class="history-val"><span style="color:var(--text-3);font-size:12px">${lbl} — </span>${r.answer}</div></div>`;
+      });
+      html += `</div>`;
+    });
+    wrap.innerHTML = html;
+    container.appendChild(wrap);
+  });
+}
+
+// Real-time
+sb.channel('responses').on('postgres_changes', { event:'INSERT', schema:'public', table:'responses' }, payload => {
+  if (payload.new.quarter === activeQuarter && !isReadonly) renderResponse(payload.new);
 }).subscribe();
 
-// Load existing responses on page load
-loadAll();
+loadForQuarter(CURRENT_QUARTER);
 </script>
 </body>
 </html>
