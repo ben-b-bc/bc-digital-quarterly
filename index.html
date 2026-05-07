@@ -59,8 +59,10 @@
   .btn-green { background: var(--green-light); color: var(--green-dark); border-color: var(--green-mid); font-weight: 500; }
   .btn-green:hover { background: var(--green-mid); }
   .sticky-area { display: flex; flex-wrap: wrap; gap: 8px; min-height: 50px; padding: 4px 0 8px; }
-  .sticky { padding: 9px 13px; border-radius: 6px; font-size: 13px; line-height: 1.4; max-width: 210px; word-break: break-word; }
-  .sticky-del { font-size: 10px; margin-left: 6px; opacity: .4; cursor: pointer; vertical-align: middle; }
+  .sticky { padding: 8px 13px 6px; border-radius: 6px; font-size: 13px; line-height: 1.4; max-width: 210px; word-break: break-word; display: flex; flex-direction: column; gap: 4px; }
+  .sticky-text { font-size: 13px; line-height: 1.4; }
+  .sticky-name { font-size: 10px; font-weight: 600; opacity: 0.6; letter-spacing: .02em; }
+  .sticky-del { font-size: 10px; margin-left: 4px; opacity: .4; cursor: pointer; vertical-align: middle; }
   .sticky-del:hover { opacity: 1; }
   .s-green { background: #9FE1CB; color: #085041; }
   .s-purple { background: #CECBF6; color: #3C3489; }
@@ -79,8 +81,15 @@
   .r-btn.sel-high { background: var(--teal-light); color: var(--teal-dark); border-color: var(--teal-mid); }
   .rating-legend { font-size: 11px; color: var(--text-3); margin-top: 8px; }
   .choices { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
-  .choice { padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border-strong); background: var(--surface); color: var(--text-2); font-size: 13px; cursor: pointer; font-family: inherit; transition: all .12s; }
+  .choice { padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border-strong); background: var(--surface); color: var(--text-2); font-size: 13px; cursor: pointer; font-family: inherit; transition: all .12s; display: flex; align-items: center; gap: 7px; }
   .choice.sel { background: var(--purple-light); color: var(--purple-dark); border-color: var(--purple-mid); font-weight: 500; }
+  .choice-count { font-size: 11px; font-weight: 700; background: rgba(0,0,0,0.08); color: var(--text-2); border-radius: 10px; padding: 1px 6px; display: none; }
+  .choice.sel .choice-count { background: var(--purple-mid); color: var(--purple-dark); display: inline-block; }
+  .choice.has-votes .choice-count { display: inline-block; }
+  .health-votes { display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap; align-items: center; }
+  .health-vote-pill { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+  .collab-name-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; padding: 10px 14px; background: var(--purple-light); border-radius: var(--radius-sm); font-size: 13px; color: var(--purple-dark); flex-wrap: wrap; }
+  .collab-name-bar input { max-width: 180px; padding: 5px 10px; font-size: 13px; background: var(--surface); border-color: var(--purple-mid); }
   .member-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; }
   .m-tab { padding: 7px 16px; border-radius: 20px; border: 0.5px solid var(--border-strong); background: var(--surface); color: var(--text-2); font-size: 13px; cursor: pointer; font-family: inherit; transition: all .12s; display: flex; align-items: center; gap: 8px; }
   .m-tab.active { background: var(--purple-light); color: var(--purple-dark); border-color: var(--purple-mid); font-weight: 500; }
@@ -202,6 +211,11 @@
   <!-- WINS -->
   <div class="section" id="sec-wins">
     <div class="sec-header"><div class="sec-title">Wins & highlights</div><div class="sec-sub">Celebrate what the team has delivered this quarter. Be specific — call people out, make it stick.</div></div>
+    <div class="collab-name-bar">
+      <span>Your name:</span>
+      <input type="text" id="wins-voter-name" placeholder="Enter your name..." onchange="winsVoterName=this.value.trim()">
+      <span style="font-size:12px;opacity:.7">— shown on your stickies</span>
+    </div>
     <div class="card">
       <div class="q-tag">Project wins</div>
       <div class="q-text">What projects or deliverables are you most proud of this quarter?</div>
@@ -244,16 +258,22 @@
 
   <!-- COLLAB -->
   <div class="section" id="sec-collab">
-    <div class="sec-header"><div class="sec-title">How we work together</div><div class="sec-sub">Group questions for the whole team. Select options that resonate and add notes.</div></div>
+    <div class="sec-header"><div class="sec-title">How we work together</div><div class="sec-sub">Group questions for the whole team. Enter your name, then select everything that applies — vote counts update live.</div></div>
+    <div class="collab-name-bar">
+      <span>Your name:</span>
+      <input type="text" id="collab-voter-name" placeholder="Enter your name..." onchange="saveCollabVoterName(this.value)">
+      <span style="font-size:12px;opacity:.7">— needed to track individual votes</span>
+    </div>
     <div class="card">
       <div class="q-tag">Design ↔ Dev handoff</div>
       <div class="q-text">How well is the handoff between design and development working right now?</div>
+      <div class="q-hint">Select all that apply — everyone votes individually.</div>
       <div class="choices" id="ch-handoff">
-        <button class="choice" data-key="handoff" data-val="Works well overall" onclick="toggleChoice(this)">Works well overall</button>
-        <button class="choice" data-key="handoff" data-val="Specs could be clearer" onclick="toggleChoice(this)">Specs could be clearer</button>
-        <button class="choice" data-key="handoff" data-val="More overlap time needed" onclick="toggleChoice(this)">More overlap time needed</button>
-        <button class="choice" data-key="handoff" data-val="Feedback loops are slow" onclick="toggleChoice(this)">Feedback loops are slow</button>
-        <button class="choice" data-key="handoff" data-val="Tooling is the issue" onclick="toggleChoice(this)">Tooling is the issue</button>
+        <button class="choice" data-key="handoff" data-val="Works well overall" onclick="toggleChoice(this)">Works well overall <span class="choice-count">0</span></button>
+        <button class="choice" data-key="handoff" data-val="Specs could be clearer" onclick="toggleChoice(this)">Specs could be clearer <span class="choice-count">0</span></button>
+        <button class="choice" data-key="handoff" data-val="More overlap time needed" onclick="toggleChoice(this)">More overlap time needed <span class="choice-count">0</span></button>
+        <button class="choice" data-key="handoff" data-val="Feedback loops are slow" onclick="toggleChoice(this)">Feedback loops are slow <span class="choice-count">0</span></button>
+        <button class="choice" data-key="handoff" data-val="Tooling is the issue" onclick="toggleChoice(this)">Tooling is the issue <span class="choice-count">0</span></button>
       </div>
       <textarea id="ta-handoff" data-key="handoff-notes" placeholder="Notes from group discussion..." style="margin-top:10px" onchange="saveTextarea('handoff-notes',this.value)"></textarea>
     </div>
@@ -266,17 +286,18 @@
     <div class="card">
       <div class="q-tag">Communication & visibility</div>
       <div class="q-text">Do we have enough visibility into what each other is working on?</div>
+      <div class="q-hint">Select all that apply — everyone votes individually.</div>
       <div class="choices" id="ch-comms">
-        <button class="choice" data-key="comms" data-val="Good visibility within the team" onclick="toggleChoice(this)">Good visibility within team</button>
-        <button class="choice" data-key="comms" data-val="Hard to know what others are on" onclick="toggleChoice(this)">Hard to know what others are on</button>
-        <button class="choice" data-key="comms" data-val="Brand team comms could improve" onclick="toggleChoice(this)">Brand team comms could improve</button>
-        <button class="choice" data-key="comms" data-val="Client comms feel disconnected" onclick="toggleChoice(this)">Client comms feel disconnected</button>
+        <button class="choice" data-key="comms" data-val="Good visibility within the team" onclick="toggleChoice(this)">Good visibility within team <span class="choice-count">0</span></button>
+        <button class="choice" data-key="comms" data-val="Hard to know what others are on" onclick="toggleChoice(this)">Hard to know what others are on <span class="choice-count">0</span></button>
+        <button class="choice" data-key="comms" data-val="Brand team comms could improve" onclick="toggleChoice(this)">Brand team comms could improve <span class="choice-count">0</span></button>
+        <button class="choice" data-key="comms" data-val="Client comms feel disconnected" onclick="toggleChoice(this)">Client comms feel disconnected <span class="choice-count">0</span></button>
       </div>
       <textarea id="ta-comms" data-key="comms-notes" placeholder="Notes from group discussion..." style="margin-top:10px" onchange="saveTextarea('comms-notes',this.value)"></textarea>
     </div>
     <div class="card">
       <div class="q-tag">Team health check</div>
-      <div class="q-text">Rate the team on each of these — 1 being low, 5 being strong.</div>
+      <div class="q-text">Rate the team on each of these — 1 being low, 5 being strong. Everyone rates individually.</div>
       <div class="rating-group" style="margin-top:12px" id="health-group"></div>
       <div class="rating-legend" style="margin-top:12px">1 = needs attention &nbsp;·&nbsp; 3 = holding steady &nbsp;·&nbsp; 5 = firing on all cylinders</div>
     </div>
@@ -285,6 +306,11 @@
   <!-- NEXT QUARTER -->
   <div class="section" id="sec-next">
     <div class="sec-header"><div class="sec-title">Next quarter</div><div class="sec-sub">Looking ahead — what does the team want to focus on, improve, or try?</div></div>
+    <div class="collab-name-bar">
+      <span>Your name:</span>
+      <input type="text" id="next-voter-name" placeholder="Enter your name..." onchange="nextVoterName=this.value.trim()">
+      <span style="font-size:12px;opacity:.7">— shown on your stickies</span>
+    </div>
     <div class="card">
       <div class="q-tag">Priorities</div>
       <div class="q-text">What are the two or three things the digital team most needs to focus on next quarter?</div>
@@ -435,31 +461,31 @@ async function loadForQuarter(quarter) {
 
 function renderResponse(r) {
   const { section, question, answer, name, role } = r;
-  if (section==='warmup' && question==='oneword') addStickyEl('sa-oneword', answer, 's-purple');
+  if (section==='warmup' && question==='oneword') addStickyEl('sa-oneword', answer, 's-purple', name);
   if (section==='warmup' && question==='temperature') addTempEl(name, answer);
-  if (section==='wins' && question==='projwins') addStickyEl('sa-projwins', answer, 's-green');
-  if (section==='wins' && question==='personalwins') addStickyEl('sa-personalwins', answer, 's-purple');
+  if (section==='wins' && question==='projwins') addStickyEl('sa-projwins', answer, 's-green', name);
+  if (section==='wins' && question==='personalwins') addStickyEl('sa-personalwins', answer, 's-purple', name);
   if (section==='wins' && question==='kudo') renderKudo(answer);
-  if (section==='collab' && question==='tools') addStickyEl('sa-tools', answer, 's-blue');
-  if (section==='next' && question==='prios') addStickyEl('sa-prios', answer, 's-purple');
-  if (section==='next' && question==='stop') addStickyEl('sa-stop', answer, 's-amber');
-  if (section==='next' && question==='start') addStickyEl('sa-start', answer, 's-green');
-  if (section==='next' && question==='keep') addStickyEl('sa-keep', answer, 's-purple');
-  if (section==='next' && question==='learn') addStickyEl('sa-learn', answer, 's-blue');
-  if (section==='next' && question==='onething') addStickyEl('sa-onething', answer, 's-coral');
+  if (section==='collab' && question==='tools') addStickyEl('sa-tools', answer, 's-blue', name);
+  if (section==='next' && question==='prios') addStickyEl('sa-prios', answer, 's-purple', name);
+  if (section==='next' && question==='stop') addStickyEl('sa-stop', answer, 's-amber', name);
+  if (section==='next' && question==='start') addStickyEl('sa-start', answer, 's-green', name);
+  if (section==='next' && question==='keep') addStickyEl('sa-keep', answer, 's-purple', name);
+  if (section==='next' && question==='learn') addStickyEl('sa-learn', answer, 's-blue', name);
+  if (section==='next' && question==='onething') addStickyEl('sa-onething', answer, 's-coral', name);
 
-  // Restore choice button selections
-  if (section==='collab' && question==='handoff-choices') restoreChoices('ch-handoff', answer);
-  if (section==='collab' && question==='comms-choices') restoreChoices('ch-comms', answer);
+  // Restore choice button selections — pass voter name so counts are tracked per person
+  if (section==='collab' && question==='handoff-choices') restoreChoices('ch-handoff', answer, name);
+  if (section==='collab' && question==='comms-choices') restoreChoices('ch-comms', answer, name);
 
   // Restore textarea notes
   if (section==='collab' && question==='handoff-notes') { const el = document.getElementById('ta-handoff'); if(el) el.value = answer; }
   if (section==='collab' && question==='comms-notes') { const el = document.getElementById('ta-comms'); if(el) el.value = answer; }
 
-  // Restore health ratings
+  // Restore health ratings — pass voter name so individual votes are shown
   if (section==='collab' && question.startsWith('health-')) {
     const item = question.replace('health-','');
-    restoreHealthRating(item, parseInt(answer));
+    restoreHealthRating(item, parseInt(answer), name);
   }
 
   // Restore individual check-in fields
@@ -472,27 +498,78 @@ function renderResponse(r) {
   }
 }
 
-function restoreChoices(containerId, savedVal) {
-  const container = document.getElementById(containerId);
-  if (!container || !savedVal) return;
-  const selected = savedVal.split(', ');
-  container.querySelectorAll('.choice').forEach(btn => {
-    if (selected.includes(btn.dataset.val) || selected.includes(btn.textContent.trim())) {
-      btn.classList.add('sel');
-    }
+// Vote counts: { 'handoff:Works well overall': ['Ben','Freddie'], ... }
+const voteCounts = {};
+let collabVoterName = '';
+
+function saveCollabVoterName(val) {
+  collabVoterName = val.trim();
+}
+
+function getVoteKey(key, val) { return key + ':' + val; }
+
+function incrementVoteCount(key, val, voterName) {
+  const vk = getVoteKey(key, val);
+  if (!voteCounts[vk]) voteCounts[vk] = [];
+  if (!voteCounts[vk].includes(voterName)) voteCounts[vk].push(voterName);
+  refreshChoiceCounts(key);
+}
+
+function refreshChoiceCounts(key) {
+  document.querySelectorAll(`.choice[data-key="${key}"]`).forEach(btn => {
+    const val = btn.dataset.val;
+    const vk = getVoteKey(key, val);
+    const count = (voteCounts[vk] || []).length;
+    const badge = btn.querySelector('.choice-count');
+    if (badge) badge.textContent = count;
+    if (count > 0) btn.classList.add('has-votes');
+    else btn.classList.remove('has-votes');
   });
 }
 
-function restoreHealthRating(item, val) {
-  document.querySelectorAll('#health-group .rating-item').forEach(row => {
-    if (row.querySelector('.rating-label').textContent === item) {
-      row.querySelectorAll('.r-btn').forEach(btn => {
-        if (parseInt(btn.textContent) === val) {
-          btn.classList.add(val >= 4 ? 'sel-high' : val <= 2 ? 'sel-low' : 'sel-mid');
-        }
-      });
-    }
+function restoreChoices(containerId, savedVal, voterName) {
+  const key = containerId === 'ch-handoff' ? 'handoff' : 'comms';
+  if (!savedVal) return;
+  const selected = savedVal.split(', ').map(s => s.trim());
+  selected.forEach(val => {
+    if (val) incrementVoteCount(key, val, voterName || 'unknown');
   });
+}
+
+// Health vote tracking: { 'Design quality': [{name:'Ben',val:4}, ...] }
+const healthVotes = {};
+
+function addHealthVote(item, val, voterName) {
+  if (!healthVotes[item]) healthVotes[item] = [];
+  // Replace existing vote from same person
+  healthVotes[item] = healthVotes[item].filter(v => v.name !== voterName);
+  healthVotes[item].push({ name: voterName || 'Team', val });
+  refreshHealthDisplay(item);
+}
+
+function refreshHealthDisplay(item) {
+  const votes = healthVotes[item] || [];
+  document.querySelectorAll('#health-group .rating-item').forEach(row => {
+    if (row.querySelector('.rating-label').textContent !== item) return;
+    // Show individual vote dots below the rating buttons
+    let dotsEl = row.querySelector('.health-votes');
+    if (!dotsEl) {
+      dotsEl = document.createElement('div');
+      dotsEl.className = 'health-votes';
+      dotsEl.style.cssText = 'margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%';
+      row.appendChild(dotsEl);
+    }
+    dotsEl.innerHTML = votes.map(v => {
+      const cls = v.val >= 4 ? 'sel-high' : v.val <= 2 ? 'sel-low' : 'sel-mid';
+      const bg = v.val >= 4 ? '#9FE1CB' : v.val <= 2 ? '#FAC775' : '#B5D4F4';
+      const col = v.val >= 4 ? '#085041' : v.val <= 2 ? '#633806' : '#0C447C';
+      return `<span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:${bg};color:${col}">${v.name} · ${v.val}</span>`;
+    }).join('');
+  });
+}
+
+function restoreHealthRating(item, val, voterName) {
+  addHealthVote(item, val, voterName || 'Team');
 }
 
 function buildMemberFromData(id, name, role) {
@@ -550,12 +627,12 @@ function populateMemberField(memberId, field, value) {
   });
 }
 
-function addStickyEl(areaId, text, cls) {
+function addStickyEl(areaId, text, cls, name) {
   const area = document.getElementById(areaId);
   if (!area) return;
   const s = document.createElement('span');
   s.className = 'sticky ' + cls;
-  s.textContent = text;
+  s.innerHTML = `<span class="sticky-text">${text}</span>${name ? `<span class="sticky-name">${name}</span>` : ''}`;
   area.appendChild(s);
 }
 
@@ -608,15 +685,29 @@ async function submitTemp() {
   toast('Added!');
 }
 
+let winsVoterName = '';
+let nextVoterName = '';
+
 const sectionMap = { projwins:'wins', personalwins:'wins', tools:'collab', prios:'next', stop:'next', start:'next', keep:'next', learn:'next', onething:'next' };
+
+function getVoterNameForSection(question) {
+  const winsSections = ['projwins','personalwins'];
+  const nextSections = ['prios','stop','start','keep','learn','onething'];
+  const collabSections = ['tools'];
+  if (winsSections.includes(question)) return winsVoterName || document.getElementById('wins-voter-name').value.trim();
+  if (nextSections.includes(question)) return nextVoterName || document.getElementById('next-voter-name').value.trim();
+  if (collabSections.includes(question)) return collabVoterName || document.getElementById('collab-voter-name').value.trim();
+  return '';
+}
 
 async function submitSticky(question, inputId, cls) {
   if (isReadonly) return;
   const inp = document.getElementById(inputId);
   const val = inp.value.trim();
   if (!val) return;
-  addStickyEl('sa-'+question, val, cls);
-  await save(sectionMap[question]||question, question, val);
+  const voterName = getVoterNameForSection(question);
+  addStickyEl('sa-'+question, val, cls, voterName);
+  await save(sectionMap[question]||question, question, val, voterName);
   inp.value = '';
   inp.focus();
   toast('Saved!');
@@ -639,11 +730,25 @@ async function submitKudo() {
 
 async function toggleChoice(btn) {
   if (isReadonly) return;
+  const voterName = collabVoterName || document.getElementById('collab-voter-name').value.trim();
+  if (!voterName) { toast('Please enter your name first'); document.getElementById('collab-voter-name').focus(); return; }
+  collabVoterName = voterName;
   const key = btn.dataset.key;
+  const val = btn.dataset.val;
   btn.classList.toggle('sel');
+  const isSelected = btn.classList.contains('sel');
+  if (isSelected) {
+    incrementVoteCount(key, val, voterName);
+  } else {
+    // Remove vote
+    const vk = getVoteKey(key, val);
+    if (voteCounts[vk]) voteCounts[vk] = voteCounts[vk].filter(n => n !== voterName);
+    refreshChoiceCounts(key);
+  }
+  // Save the full set of selected options for this voter
   const container = btn.closest('.choices');
-  const sel = [...container.querySelectorAll('.choice.sel')].map(b => b.dataset.val || b.textContent.trim()).join(', ');
-  await save('collab', key+'-choices', sel);
+  const sel = [...container.querySelectorAll('.choice.sel')].map(b => b.dataset.val).join(', ');
+  await save('collab', key+'-choices', sel, voterName);
 }
 
 async function saveTextarea(key, val) {
@@ -760,15 +865,20 @@ function updateProg() {
 ['Design quality','Code quality','Team communication','Work-life balance'].forEach(item => {
   const div = document.createElement('div');
   div.className = 'rating-item';
+  div.style.flexWrap = 'wrap';
   div.innerHTML = `<div class="rating-label">${item}</div><div class="rating-btns">${[1,2,3,4,5].map(n=>`<button class="r-btn" onclick="pickHealth(this,'${item}',${n})">${n}</button>`).join('')}</div>`;
   document.getElementById('health-group').appendChild(div);
 });
 
 async function pickHealth(btn, item, val) {
   if (isReadonly) return;
+  const voterName = collabVoterName || document.getElementById('collab-voter-name').value.trim();
+  if (!voterName) { toast('Please enter your name at the top first'); document.getElementById('collab-voter-name').focus(); return; }
+  collabVoterName = voterName;
   btn.closest('.rating-btns').querySelectorAll('.r-btn').forEach(b => b.classList.remove('sel-low','sel-mid','sel-high'));
   btn.classList.add(val >= 4 ? 'sel-high' : val <= 2 ? 'sel-low' : 'sel-mid');
-  await save('collab', 'health-'+item, val);
+  addHealthVote(item, val, voterName);
+  await save('collab', 'health-'+item, val, voterName);
 }
 
 // HISTORY
