@@ -421,8 +421,36 @@ async function loadForQuarter(quarter) {
     }
   });
 
-  // Second pass: render all responses
-  data.forEach(r => renderResponse(r));
+  // Deduplicate health ratings — keep only the latest vote per person per item
+  const healthLatest = {}; // key: "item:name" → last row
+  data.filter(r => r.section === 'collab' && r.question.startsWith('health-')).forEach(r => {
+    const key = r.question + ':' + (r.name || 'Team');
+    healthLatest[key] = r; // later rows overwrite earlier ones (data is ordered by created_at)
+  });
+
+  // Deduplicate choice votes — keep only the latest row per person per choice group
+  const choiceLatest = {}; // key: "question:name" → last row
+  data.filter(r => r.section === 'collab' && (r.question === 'handoff-choices' || r.question === 'comms-choices')).forEach(r => {
+    const key = r.question + ':' + (r.name || 'anon');
+    choiceLatest[key] = r;
+  });
+
+  // Build the final set of rows to render — excluding raw health/choice rows (use deduped versions instead)
+  const skipQuestions = new Set(['handoff-choices','comms-choices']);
+  const isHealthQ = (q) => q.startsWith('health-');
+
+  const rowsToRender = data.filter(r => {
+    if (r.section === 'collab' && skipQuestions.has(r.question)) return false;
+    if (r.section === 'collab' && isHealthQ(r.question)) return false;
+    return true;
+  });
+
+  // Add deduplicated versions back in
+  Object.values(choiceLatest).forEach(r => rowsToRender.push(r));
+  Object.values(healthLatest).forEach(r => rowsToRender.push(r));
+
+  // Render everything
+  rowsToRender.forEach(r => renderResponse(r));
 }
 
 // Track vote counts for collab choices
@@ -445,7 +473,7 @@ function renderResponse(r) {
   if (section==='next' && question==='learn') addStickyEl('sa-learn', answer, 's-blue', name);
   if (section==='next' && question==='onething') addStickyEl('sa-onething', answer, 's-coral', name);
 
-  // Collab choice buttons — restore selections and vote counts
+  // Collab choice buttons — restore selections and vote counts (one vote per person)
   if (section==='collab' && (question==='handoff-choices' || question==='comms-choices')) {
     const containerId = question === 'handoff-choices' ? 'ch-handoff' : 'ch-comms';
     const container = document.getElementById(containerId);
@@ -455,9 +483,8 @@ function renderResponse(r) {
       if (!choiceVotes[vk]) choiceVotes[vk] = 0;
       choiceVotes[vk]++;
       container.querySelectorAll('.choice').forEach(btn => {
-        if (btn.textContent.trim() === val || btn.dataset.val === val) {
+        if (btn.dataset.val === val || btn.childNodes[0].textContent.trim() === val) {
           btn.classList.add('sel');
-          // Update or add count badge
           let badge = btn.querySelector('.v-count');
           if (!badge) {
             badge = document.createElement('span');
@@ -475,19 +502,19 @@ function renderResponse(r) {
   if (section==='collab' && question==='handoff-notes') { const el = document.getElementById('ta-handoff'); if(el) el.value = answer; }
   if (section==='collab' && question==='comms-notes') { const el = document.getElementById('ta-comms'); if(el) el.value = answer; }
 
-  // Health ratings — show each person's vote as a pill
+  // Health ratings — show one pill per person, replace if they vote again
   if (section==='collab' && question.startsWith('health-')) {
     const item = question.replace('health-','');
+    const voterKey = name || 'Team';
     document.querySelectorAll('#health-group .rating-item').forEach(row => {
       if (row.querySelector('.rating-label').textContent !== item) return;
       const val = parseInt(answer);
-      // Highlight the button for the most recent vote
+      row.querySelectorAll('.r-btn').forEach(btn => btn.classList.remove('sel-low','sel-mid','sel-high'));
       row.querySelectorAll('.r-btn').forEach(btn => {
         if (parseInt(btn.textContent) === val) {
           btn.classList.add(val >= 4 ? 'sel-high' : val <= 2 ? 'sel-low' : 'sel-mid');
         }
       });
-      // Add named vote pill below
       let votesEl = row.querySelector('.health-votes');
       if (!votesEl) {
         votesEl = document.createElement('div');
@@ -495,11 +522,14 @@ function renderResponse(r) {
         votesEl.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;width:100%';
         row.appendChild(votesEl);
       }
+      // Remove any existing pill for this voter
+      [...votesEl.querySelectorAll('[data-voter]')].filter(p => p.dataset.voter === voterKey).forEach(p => p.remove());
       const bg = val >= 4 ? '#9FE1CB' : val <= 2 ? '#FAC775' : '#B5D4F4';
       const col = val >= 4 ? '#085041' : val <= 2 ? '#633806' : '#0C447C';
       const pill = document.createElement('span');
+      pill.dataset.voter = voterKey;
       pill.style.cssText = `font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:${bg};color:${col}`;
-      pill.textContent = (name || 'Team') + ' · ' + val;
+      pill.textContent = voterKey + ' · ' + val;
       votesEl.appendChild(pill);
     });
   }
